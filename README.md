@@ -110,7 +110,14 @@ PUBLIC_ACCESS=READ_ONLY_FILE # If you want to give read only access to panel or 
 
 UPLOAD_CONCURRENCY=3 # ddrive will upload this many chunks in parallel to discord. If you have fast internet increasing it will significantly increase performance at cost of cpu/disk usage                                              
 
+BOT_TOKEN= # Add a bot to your Discord server and retrieve the token from the Developer Portal at https://discord.com/developers/applications.
+CHANNEL_ID= # The channel ID where the file will be uploaded, is the same as the webhook's channel.
+GUILD_ID= # The GUILD ID where the file will be uploaded
 ```
+src/DFs/index.js line 42 AND line 74 :
+`const list = await fetchMore(channel, 15000); `
+
+Increase the number if older files are not downloadable, like 20000 or 30000. **If you change it, delete the cache.json before restart**
 
 ### Run using docker
 ```shell
