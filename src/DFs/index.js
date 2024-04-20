@@ -39,7 +39,7 @@ client.on('ready', async () => {
     // If no cache file is found, run update
     if (!cacheExists) {
         try {
-            const list = await fetchMore(channel, 1000); //increase if older files are not downloadable
+            const list = await fetchMore(channel, 15000); //increase if older files are not downloadable
 
             // Save list to cache file
             const messagesToCache = [];
