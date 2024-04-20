@@ -53,6 +53,19 @@ client.on('ready', async () => {
             console.error('Error during initial message retrieval :', err);
         }
     } else {
+        // If it exists, load its contents
+        try {
+            const cacheContent = fs.readFileSync('cache.json', 'utf8');
+            if (cacheContent) {
+                const cachedMessages = JSON.parse(cacheContent);
+                channel_msg_fetched = cachedMessages
+
+                console.log('Initial list loaded from cache file.');
+            }
+        } catch (err) {
+            console.error('Error reading cache file :', err);
+        }
+    }
 client.login(process.env.BOT_TOKEN)
 
 async function fetchMore(channel, limit = 15000) {
