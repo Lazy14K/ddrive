@@ -139,7 +139,7 @@ async function refreshTable() {
     for (const directory of sort(body.child.directories, 'name')) {
         tbody.appendChild(prepareFolderTR(directory))
     }
-    for (const file of sort(body.child.files, 'name')) {
+    for (const file of sort(body.child.files, 'name')) { //replace "name" by "createdAt" to filter by date
         tbody.appendChild(prepareFileTR(file))
     }
 }
