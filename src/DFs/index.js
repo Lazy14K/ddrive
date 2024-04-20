@@ -1,9 +1,11 @@
 /* eslint-disable no-restricted-syntax,no-await-in-loop */
+require('dotenv').config({ path: './config/.env' })
 const https = require('https')
 const crypto = require('crypto')
 const { REST } = require('@discordjs/rest')
 const _ = require('lodash')
 const uuid = require('uuid').v4
+const fs = require('fs');
 const AsyncStreamProcessorWithConcurrency = require('./lib/AsyncStreamProcessorWithConcurrency')
 const AsyncStreamProcessor = require('./lib/AsyncStreamProcessor')
 const StreamChunker = require('./lib/StreamChunker')
