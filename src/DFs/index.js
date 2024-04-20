@@ -12,6 +12,9 @@ const DEFAULT_CHUNK_SIZE = 25165824 // 24MB
 const DEFAULT_ENCRYPTION = 'aes-256-ctr'
 const DEFAULT_REST_OPTS = { version: 10, timeout: 60000 }
 const DEFAULT_MAX_UPLOAD_CONCURRENCY = 3
+const { Client, Intents } = require('discord.js');
+const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] });
+const { Collection } = require('discord.js');
 
 class DiscordFileSystem {
     constructor(opts) {
