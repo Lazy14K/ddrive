@@ -15,6 +15,11 @@ const DEFAULT_MAX_UPLOAD_CONCURRENCY = 3
 const { Client, Intents } = require('discord.js');
 const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] });
 const { Collection } = require('discord.js');
+let channel_msg_fetched = new Collection();
+
+client.on('ready', async () => {
+    console.log(`Logged in as ${client.user.tag}!`,);
+    const channel = client.guilds.cache.get(process.env.GUILD_ID).channels.cache.get(process.env.CHANNEL_ID)
 client.login(process.env.BOT_TOKEN)
 
 async function fetchMore(channel, limit = 15000) {
