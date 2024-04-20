@@ -15,11 +15,44 @@ const DEFAULT_MAX_UPLOAD_CONCURRENCY = 3
 const { Client, Intents } = require('discord.js');
 const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] });
 const { Collection } = require('discord.js');
-let channel_msg_fetched = new Collection();
+let channel_msg_fetched = []
 
 client.on('ready', async () => {
     console.log(`Logged in as ${client.user.tag}!`,);
     const channel = client.guilds.cache.get(process.env.GUILD_ID).channels.cache.get(process.env.CHANNEL_ID)
+    // Vérifier si le fichier de cache existe et s'il contient des données
+    let cacheExists = true;
+    try {
+        fs.accessSync('cache.json');
+        const cacheContent = fs.readFileSync('cache.json', 'utf8');
+        if (!cacheContent || cacheContent.length <= 2) {
+            cacheExists = false;
+            console.log('The cache file is empty.');
+        }
+    } catch (err) {
+        cacheExists = false;
+        console.error('Cache file does not exist, create ... (this operation may take some time depending on the number of files in the ddrive, patience)');
+    }
+
+    // If no cache file is found, run update
+    if (!cacheExists) {
+        try {
+            const list = await fetchMore(channel, 1000); //increase if older files are not downloadable
+
+            // Save list to cache file
+            const messagesToCache = [];
+            list.forEach((value, key) => {
+                if (value.attachments.first()) messagesToCache.push(value.attachments.first())
+            });
+
+            channel_msg_fetched = messagesToCache
+            fs.writeFileSync('cache.json', JSON.stringify(messagesToCache, null, 2), 'utf8');
+
+            console.log('Initial list loaded from discord server and saved in cache file.');
+        } catch (err) {
+            console.error('Error during initial message retrieval :', err);
+        }
+    } else {
 client.login(process.env.BOT_TOKEN)
 
 async function fetchMore(channel, limit = 15000) {
