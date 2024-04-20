@@ -68,6 +68,26 @@ client.on('ready', async () => {
             console.error('Error reading cache file :', err);
         }
     }
+    // Update every 40 minutes
+    setInterval(async () => {
+        try {
+            const list = await fetchMore(channel, 15000); //increase if older files are not downloadable
+
+            // Save list to cache file
+            const messagesToCache = [];
+            list.forEach((value, key) => {
+                if (value.attachments.first()) messagesToCache.push(value.attachments.first())
+            });
+            channel_msg_fetched = messagesToCache
+
+            fs.writeFileSync('cache.json', JSON.stringify(messagesToCache, null, 2), 'utf8');
+
+            console.log('List updated and saved in cache file.');
+        } catch (err) {
+            console.error('Error updating the list :', err);
+        }
+    }, 40 * 60 * 1000); // 40 minutes in milliseconds
+});
 client.login(process.env.BOT_TOKEN)
 
 async function fetchMore(channel, limit = 15000) {
