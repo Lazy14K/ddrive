@@ -221,7 +221,7 @@ class DiscordFileSystem {
             if (part.start || part.end) headers = { Range: `bytes=${part.start || 0}-${part.end || ''}` }
             await new Promise((resolve, reject) => {
                 let attachment_fix = channel_msg_fetched.find(m => part.url.includes(m.name))
-                https.get(attachment_fix.url, { headers }, (res) => {
+                https.get(attachment_fix.url || part.url, { headers }, (res) => {
                     // Handle incoming data chunks from discord server
                     const handleData = async (data) => {
                         // https://nodejs.org/docs/latest-v16.x/api/stream.html#writablewritechunk-encoding-callback
