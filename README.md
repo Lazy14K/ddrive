@@ -177,3 +177,26 @@ Migrating ddrive v3 to v4 is one way process once you migrate ddrive to v4 and a
 Feel free to create [new issue](https://github.com/forscht/ddrive/issues/new) if it's not working for you or need any help.
 
 [Discord Support server](https://discord.gg/3TCZRYafhW)
+
+## ShareX settings
+You may use the following script, by saving it as a .sxcu file and importing it to ShareX:
+```
+{
+  "Version": "16.1.0",
+  "Name": "DDrive",
+  "DestinationType": "ImageUploader, TextUploader, FileUploader",
+  "RequestMethod": "POST",
+  "RequestURL": "http://ddrive-hostname/api/files/FILL_WITH_YOUR_TOKEN",
+  "Headers": {
+    "Authorization": "Basic YWRtaW46YWRtaW4="
+  },
+  "Body": "MultipartFormData",
+  "Arguments": {
+    "secret": "FILL_WITH_YOUR_SECRET"
+  },
+  "FileFormName": "file",
+  "URL": "{responseurl}/{filename}"
+}
+```
+Note: if you changed the admin:admin settings, you should update the "Authorization" field accordingly, by encoding username:password in Base64.
+Same goes with the secret.
