@@ -195,7 +195,7 @@ You may use the following script, by saving it as a .sxcu file and importing it 
     "secret": "FILL_WITH_YOUR_SECRET"
   },
   "FileFormName": "file",
-  "URL": "{responseurl}/{filename}"
+  "URL": "http://ddrive-hostname/api/files/{json:id}/download"
 }
 ```
 Note: if you changed the admin:admin settings, you should update the "Authorization" field accordingly, by encoding username:password in Base64.
