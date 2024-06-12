@@ -29,8 +29,6 @@ https://user-images.githubusercontent.com/59018146/167635903-48cdace0-c383-4e7d-
 
 #### Current stable branch `4.x`
 
-### Live demo at [ddrive.forscht.dev](https://ddrive.forscht.dev/)
-
 ### Features
 - Theoretically unlimited file size, thanks to splitting the file in 24mb chunks using nodejs streams API.
 - Simple yet robust HTTP front end 
@@ -111,15 +109,49 @@ PUBLIC_ACCESS=READ_ONLY_FILE # If you want to give read only access to panel or 
 UPLOAD_CONCURRENCY=3 # ddrive will upload this many chunks in parallel to discord. If you have fast internet increasing it will significantly increase performance at cost of cpu/disk usage                                              
 
 ```
+   ### Run using Docker
+   ```shell
+   docker run -rm -it -p 8080:8080 \
+   -e PORT=8080 \
+   -e WEBHOOKS={url1},{url2} \
+   -e DATABASE_URL={database url} \
+   --name ddrive forscht/ddrive
+   ```
 
-### Run using docker
-```shell
-docker run -rm -it -p 8080:8080 \
--e PORT=8080 \
--e WEBHOOKS={url1},{url2} \
--e DATABASE_URL={database url} \
---name ddrive forscht/ddrive
-```
+   ### Run using Docker Compose
+
+   Create a `docker-compose.yml` file with the following content:
+
+   ```yaml
+   version: '3.8'
+
+   services:
+     ddrive:
+       image: forscht/ddrive
+       container_name: ddrive
+       ports:
+         - "8080:8080"
+       environment:
+         - DATABASE_URL={database url}
+         - WEBHOOKS={url1},{url2}
+         - PORT=3000
+         - REQUEST_TIMEOUT=60000
+         - CHUNK_SIZE=25165824
+         - SECRET=someverysecuresecret
+         - AUTH=admin:admin
+         - PUBLIC_ACCESS=READ_ONLY_FILE
+         - UPLOAD_CONCURRENCY=3
+       stdin_open: true
+       tty: true
+       restart: always
+   ```
+
+   Then, run the following command to start the service:
+
+   ```sh
+   docker-compose up
+   ```
+
 ### One Click Deploy with Railway
 [![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/new/template/tL53xa)
 
