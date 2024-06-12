@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  ddrive:
+    image: forscht/ddrive
+    container_name: ddrive
+    ports:
+      - "8080:8080"
+    environment:
+      - DATABASE_URL={database url}
+      - WEBHOOKS={url1},{url2}
+      - PORT=8080
+      - REQUEST_TIMEOUT=60000
+      - CHUNK_SIZE=25165824
+      - SECRET=someverysecuresecret
+      - AUTH=admin:admin
+      - PUBLIC_ACCESS=READ_ONLY_FILE
+      - UPLOAD_CONCURRENCY=3
+    stdin_open: true
+    tty: true
+    restart: always
