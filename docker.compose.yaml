@@ -9,7 +9,7 @@ services:
     environment:
       - DATABASE_URL={database url}
       - WEBHOOKS={url1},{url2}
-      - PORT=3000
+      - PORT=8080
       - REQUEST_TIMEOUT=60000
       - CHUNK_SIZE=25165824
       - SECRET=someverysecuresecret
