@@ -119,6 +119,12 @@ src/DFs/index.js line 42 AND line 74 :
 
 Increase the number if older files are not downloadable, like 20000 or 30000. **If you change it, delete the cache.json before restart**
 
+
+⚠️ You need to enable MESSAGE_INTENT in developer portal of the BOT
+![image](https://github.com/user-attachments/assets/aaef7b9f-8055-42eb-87ac-973fcb43799c)
+https://discord.com/developers/applications/
+
+
 ### Run using docker
 ```shell
 docker run -rm -it -p 8080:8080 \
