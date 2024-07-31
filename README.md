@@ -23,23 +23,30 @@
 </p>
 <br>
 
+# This fork prevents files from becoming unavailable after 24 hours due to Discord's sharing restrictions. 😎
+
+What's changing? Just add a user token to the .env ;)
+<br><br><br>
+
 ##### **DDrive** A lightweight cloud storage system using discord as storage device written in nodejs. Supports an unlimited file size and unlimited storage, Implemented using node js streams with multi-part up & download.
 
 https://user-images.githubusercontent.com/59018146/167635903-48cdace0-c383-4e7d-a037-4a32eaa4ab69.mp4
 
+<!--
 #### Current stable branch `4.x`
 
-### Live demo at [ddrive.forscht.dev](https://ddrive.forscht.dev/)
+### Live demo at [ddrive.forscht.dev](https://ddrive.forscht.dev/) -->
 
 ### Features
+
 - Theoretically unlimited file size, thanks to splitting the file in 24mb chunks using nodejs streams API.
-- Simple yet robust HTTP front end 
+- Simple yet robust HTTP front end
 - Rest API with OpenAPI 3.1 specifications.
 - Tested with storing 4000 GB of data on single discord channel (With max file size of 16GB).
 - Supports basic auth with read only public access to panel.
 - Easily deployable on heroku/replit and use as private cloud storage.
 
-## New Version 4.0
+<!-- ## New Version 4.0
 
 
 This next major version release 4.0 is ddrive written from scratch. It comes with most requested features and several improvements.
@@ -59,14 +66,16 @@ This next major version release 4.0 is ddrive written from scratch. It comes wit
 - DDrive now has proper rest API with OpenAPI 3.1 standards
 - Added support for dark/light mode on panel
 
-I spent several weeks finalizing this new version.  Any support is highly appreciated - [Buy me a coffee](https://www.buymeacoffee.com/forscht)
+I spent several weeks finalizing this new version.  Any support is highly appreciated - [Buy me a coffee](https://www.buymeacoffee.com/forscht) -->
 
 ### Requirements
+
 - NodeJS v16.x or Docker
 - Postgres Database, Discord Webhook URLs
 - Avg technical knowledge
 
 ## Setup Guide
+
 1. Clone this project
 2. Create few webhook urls. For better performance and to avoid rate limit at least create 5 with 1 webhook / text channel. ([How to create webhook url](https://support.discord.com/hc/en-us/articles/228383668-Intro-to-Webhooks))
 3. Setup postgres using docker, if you already don't have it running
@@ -79,12 +88,14 @@ I spent several weeks finalizing this new version.  Any support is highly apprec
 8. Navigate to `http://localhost:3000` in your browser.
 
 ### How to keep it running forever
+
 1. Install pm2 with `npm install -g pm2`
 2. Run - `pm2 start bin/ddrive`
 3. Run - `pm2 list` to check status of ddrive
 4. Run - `pm2 logs` to check ddrive logs
 
 ### Config variables explanation
+
 ```shell
 # config/.env
 
@@ -108,31 +119,38 @@ PUBLIC_ACCESS=READ_ONLY_FILE # If you want to give read only access to panel or 
                              # READ_ONLY_FILE - User will be only access download links of file and not panel
                              # READ_ONLY_PANEL - User will be able to browse the panel for files/directories but won't be able to upload/delete/rename any file/folder.
 
-UPLOAD_CONCURRENCY=3 # ddrive will upload this many chunks in parallel to discord. If you have fast internet increasing it will significantly increase performance at cost of cpu/disk usage                                              
+UPLOAD_CONCURRENCY=3 # ddrive will upload this many chunks in parallel to discord. If you have fast internet increasing it will significantly increase performance at cost of cpu/disk usage
 
-BOT_TOKEN= # Add a bot to your Discord server and retrieve the token from the Developer Portal at https://discord.com/developers/applications.
-CHANNEL_ID= # The channel ID where the file will be uploaded, is the same as the webhook's channel.
-GUILD_ID= # The GUILD ID where the file will be uploaded
+USER_TOKEN= # Put real Discord User account Token (see below for steps)
 ```
-src/DFs/index.js line 42 AND line 74 :
-`const list = await fetchMore(channel, 15000); `
 
-Increase the number if older files are not downloadable, like 20000 or 30000. **If you change it, delete the cache.json before restart**
+## How to get a user Discord token (need to be login to the account)
 
+[](https://github.com/ShufflePerson/Discord_CDN/blob/master/README.md#how-to-get-your-token)
 
-⚠️ You need to enable MESSAGE_INTENT in developer portal of the BOT
-![image](https://github.com/user-attachments/assets/aaef7b9f-8055-42eb-87ac-973fcb43799c)
-https://discord.com/developers/applications/
-
+1. Open Discord on your Browser.
+2. Open the Dev Tools ( Inspect Element )
+3. Go to the Console Tab and paste in the following command
+4. `console.log((webpackChunkdiscord_app.push([[''],{},e=>{m=[];for(let c in e.c)m.push(e.c[c])}]),m).find(m=>m?.exports?.default?.getToken!==void 0).exports.default.getToken());`
+5. Copy the output and set it in the `.env` file. (e.g `USER_TOKEN=PASTE_TOKEN_HERE`), _the account does not have to be on your ddrive server_
 
 ### Run using docker
+
 ```shell
 docker run -rm -it -p 8080:8080 \
 -e PORT=8080 \
 -e WEBHOOKS={url1},{url2} \
 -e DATABASE_URL={database url} \
+-e USER_TOKEN=PASTE_TOKEN_HERE \
 --name ddrive forscht/ddrive
 ```
+
+<br/>
+<br/>
+
+_...see the [original repo](https://github.com/forscht/ddrive/) for the full readme_
+
+<!--
 ### One Click Deploy with Railway
 [![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/new/template/tL53xa)
 
@@ -190,3 +208,4 @@ Migrating ddrive v3 to v4 is one way process once you migrate ddrive to v4 and a
 Feel free to create [new issue](https://github.com/forscht/ddrive/issues/new) if it's not working for you or need any help.
 
 [Discord Support server](https://discord.gg/3TCZRYafhW)
+-->
