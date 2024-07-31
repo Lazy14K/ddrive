@@ -1,6 +1,6 @@
 {
   "name": "@forscht/ddrive",
-  "version": "4.3.0",
+  "version": "5.0.1",
   "description": "A lightweight cloud storage system using discord as storage device written in nodejs",
   "main": "src/index.js",
   "author": "Darshan Patel <darshanhihoriya@gmail.com> (https://github.com/forscht/ddrive)",
@@ -40,7 +40,6 @@
     "@fastify/auth": "^4.2.0",
     "@fastify/multipart": "^7.3.0",
     "@fastify/static": "^6.6.0",
-    "discord.js": "^13.17.1",
     "dotenv": "^16.0.3",
     "fastify": "^4.11.0",
     "fs": "^0.0.1-security",
