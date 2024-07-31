@@ -149,6 +149,7 @@ docker run -rm -it -p 8080:8080 \
 <br/>
 
 _...see the [original repo](https://github.com/forscht/ddrive/) for the full readme_
+Credit : Copyright 2024 ShufflePerson
 
 <!--
 ### One Click Deploy with Railway
