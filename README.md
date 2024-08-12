@@ -83,9 +83,10 @@ I spent several weeks finalizing this new version.  Any support is highly apprec
    - `docker-compose up -d`
 4. Copy `config/.env_sample` to `config/.env` and make necessary changes
 5. Optional - If you have lots of webhookURLs you can put those in `webhook.txt` with `\n` seperated.
-6. Run - `npm run migration:up`
-7. Run - `node bin/ddrive`
-8. Navigate to `http://localhost:3000` in your browser.
+6. Run - `npm install`
+7. Run - `npm run migration:up`
+8. Run - `node bin/ddrive`
+9. Navigate to `http://localhost:3000` in your browser.
 
 ### How to keep it running forever
 
