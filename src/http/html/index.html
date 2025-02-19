@@ -66,6 +66,7 @@
         <caption>
             DDrive File Manager
         </caption>
+        <div>Total storage: <span id="totalsize"></span></div>
         <thead>
         </thead>
         <thead>
@@ -246,7 +247,14 @@
         //
         // Create dynamic TR for files
         //
+        let totalSize = 0
+
         function prepareFileTR(data) {
+            totalSize = totalSize + data.size
+            // Calculate the total size
+            const totalSizeElement = document.getElementById('totalsize');
+            totalSizeElement.innerText = humanReadableSize(totalSize);
+            
             const tr = document.createElement('tr')
             tr.innerHTML = `
             <td style="border-right: none" title="${data.name}">

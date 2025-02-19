@@ -33,12 +33,15 @@ function makeid(length) {
 }
 
 function sort(arr, key) {
-    return arr.sort((a, b) => {
-        if (a[key] < b[key]) return -1
-        if (a[key] > b[key]) return 1
-
-        return 0
-    })
+    if (key === "createdAt") {
+        return arr.sort((b, a) => new Date(a[key]) - new Date(b[key]));
+    } else {
+        return arr.sort((a, b) => {
+            if (a[key] < b[key]) return -1
+            if (a[key] > b[key]) return 1
+            return 0
+        })
+    }
 }
 function download(url) {
     const a = document.createElement('a')
@@ -136,7 +139,7 @@ async function refreshTable() {
     for (const directory of sort(body.child.directories, 'name')) {
         tbody.appendChild(prepareFolderTR(directory))
     }
-    for (const file of sort(body.child.files, 'name')) {
+    for (const file of sort(body.child.files, 'name')) { //replace "name" by "createdAt" to filter by date
         tbody.appendChild(prepareFileTR(file))
     }
 }

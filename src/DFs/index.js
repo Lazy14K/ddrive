@@ -1,9 +1,11 @@
 /* eslint-disable no-restricted-syntax,no-await-in-loop */
+require('dotenv').config({ path: './config/.env' })
 const https = require('https')
 const crypto = require('crypto')
 const { REST } = require('@discordjs/rest')
 const _ = require('lodash')
 const uuid = require('uuid').v4
+const fs = require('fs');
 const AsyncStreamProcessorWithConcurrency = require('./lib/AsyncStreamProcessorWithConcurrency')
 const AsyncStreamProcessor = require('./lib/AsyncStreamProcessor')
 const StreamChunker = require('./lib/StreamChunker')
@@ -12,6 +14,25 @@ const DEFAULT_CHUNK_SIZE = 25165824 // 24MB
 const DEFAULT_ENCRYPTION = 'aes-256-ctr'
 const DEFAULT_REST_OPTS = { version: 10, timeout: 60000 }
 const DEFAULT_MAX_UPLOAD_CONCURRENCY = 3
+
+const DiscordCDN = require("./cdn-package/Discord/Discord").default
+
+
+
+let config = { TOKEN: process.env.USER_TOKEN }
+let discord = new DiscordCDN(config);
+
+async function refreshLink(linkToRefresh) {
+    try {
+        let link = await discord.fetchLatestLink(linkToRefresh)
+        return link;
+    } catch (ex) {
+        console.error(ex.message);
+        return false
+    }
+}
+
+
 
 class DiscordFileSystem {
     constructor(opts) {
@@ -108,8 +129,11 @@ class DiscordFileSystem {
         for (const part of parts) {
             let headers = {}
             if (part.start || part.end) headers = { Range: `bytes=${part.start || 0}-${part.end || ''}` }
-            await new Promise((resolve, reject) => {
-                https.get(part.url, { headers }, (res) => {
+            await new Promise(async (resolve, reject) => {
+
+                let attachment_fixURL = await refreshLink(part.url)
+                if (!attachment_fixURL) return reject("Can't generate new url for discord-files attachments");
+                https.get(attachment_fixURL, { headers }, (res) => {
                     // Handle incoming data chunks from discord server
                     const handleData = async (data) => {
                         // https://nodejs.org/docs/latest-v16.x/api/stream.html#writablewritechunk-encoding-callback
@@ -149,7 +173,7 @@ class DiscordFileSystem {
             // Encrypt the data if secret is provided
             let iv
             let encrypted
-            if (this.secret)({ iv, encrypted } = this._encrypt(this.secret, data))
+            if (this.secret) ({ iv, encrypted } = this._encrypt(this.secret, data))
             // Upload file to discord
             const part = { name: uuid(), data: encrypted || data }
             const { attachments: [attachment] } = await this._uploadFile(part)
